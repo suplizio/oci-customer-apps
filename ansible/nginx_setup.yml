@@ -1,0 +1,51 @@
+- hosts:  nginx-server
+  remote_user: opc
+  become: yes
+  become_method: sudo
+
+  tasks:
+
+  - name: download new OCI repo
+    get_url:
+      url: http://yum-phx.oracle.com/yum-phx-ol7.repo
+      dest: /etc/yum.repos.d/yum-phx-ol7.repo
+
+  - name: install nginx
+    yum:
+      name:
+        - nginx
+        - certbot
+        - python2-certbot-nginx
+      state: installed
+      disablerepo: ol7_developer
+
+#  - name: install certbot
+#    yum:
+#      name: certbot
+#      state: installed
+#      disablerepo: ol7_developer
+#
+#  - name: install python2-certbot-nginx
+#    yum:
+#      name: python2-certbot-nginx
+#      state: installed
+#      disablerepo: ol7_developer
+
+  - name: allow http/s service
+    become: yes
+    become_method: sudo
+    command: firewall-cmd --permanent --zone=public --add-service=http --add-service=https
+
+  - name: bounce firewall
+    command: firewall-cmd --reload
+
+
+  - name: nginx verify
+    become: yes
+    become_method: sudo
+    command: nginx -t
+
+  - name: nginx restart
+    become: yes
+    become_method: sudo
+    command: systemctl start nginx
