@@ -16,7 +16,7 @@ output "backend_private_ips" {
   value = ["${oci_core_instance.servers.*.private_ip}"]
 }
 
+/*
 output "ansible_hosts_file" {
   value = ["${data.template_file.ansible_hosts.*.rendered}"]
-}
-
+}*/
