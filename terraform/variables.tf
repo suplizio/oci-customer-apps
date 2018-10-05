@@ -36,7 +36,7 @@ variable "assign_public_ip" {
 
 variable "display_name" {
   description = "The display name of the load balancer."
-  default     = "tf_lb1"
+  default     = "demo_lb"
 }
 
 variable "shape" {
@@ -51,7 +51,7 @@ variable "is_private" {
 
 variable "backendset_name" {
   description = "The name of the backendset."
-  default     = "bs1"
+  default     = "demo_bs1"
 }
 
 variable "backendset_policy" {
@@ -92,7 +92,7 @@ variable "backend_ports" {
 
 variable "path_route_set_name" {
   description = "The name of the set of path-based routing rules."
-  default     = "prs1"
+  default     = "demo_prs1"
 }
 
 variable "path" {
@@ -196,4 +196,20 @@ variable "non_ssl_listener_path_route_set" {
 
 variable "bootstrap_file" {
   default = "./userdata/bootstrap"
+}
+
+#### Ansible files #####
+variable ansible_files_dir {
+  description = "The name of the directory containing the generated yml file/s."
+  default = "ansible"
+}
+
+variable ansible_hosts_filename {
+  description = "The name of the Ansible yml file containing the hosts information."
+  default = "hosts.yml"
+}
+
+variable hosts_tpl_filename {
+  description = "The name of the terrafor Terraform template file used to create the Ansible hosts file."
+  default = "hosts.yml.tpl"
 }

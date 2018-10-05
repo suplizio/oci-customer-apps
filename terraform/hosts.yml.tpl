@@ -1,3 +1,3 @@
 nginx-server:
   hosts:
-     129.146.111.139
+     ${public_ips}
