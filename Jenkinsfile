@@ -7,28 +7,29 @@ pipeline {
                     boolean executeDestroy = new Boolean(env.EXECUTE_DESTROY)
                     boolean executeApply = new Boolean(env.EXECUTE_APPLY)
                     def workspacePath = pwd()
-                    def stateFile = env.WORKSPACE + "/" evn.STATE_FILE
-                    def planFile = env.WORKSPACE + "/" env.PLAN_FILE
+                    //def stateFile = env.WORKSPACE + "/" + evn.STATE_FILE
+                    //def planFile = env.WORKSPACE + "/" + env.PLAN_FILE
 
 
                     git(url: 'git@github.com:suplizio/oci-customer-apps.git', branch: 'master', credentialsId: 'suplizio')
-
-                    sh 'cd ${workspacePath}/terraform'
+                    echo 'ls -lsf'
+                    echo '${workspacePath}'
+                    //sh 'cd ${workspacePath}/terraform'
 
                     echo 'Executing terraform init...'
-                    sh 'terraform init -input=false'
+                    //sh 'terraform init -input=false'
 
                     echo 'Executing terraform plan...'
-                    sh 'terraform plan -lock=false -var display_name=${DISPLAY_NAME} -out=${planFile} -state=${stateFile}'
+                    //sh 'terraform plan -lock=false -var display_name=${DISPLAY_NAME} -out=${planFile} -state=${stateFile}'
 
 
                     if (executeDestroy) {
                         echo 'Executing terraform destroy...'
-                        sh 'terraform destroy -auto-approve -lock=false -var display_name=${DISPLAY_NAME} -state=${stateFile}'
+                        //sh 'terraform destroy -auto-approve -lock=false -var display_name=${DISPLAY_NAME} -state=${stateFile}'
                     }
                     if (executeApply) {
                         echo 'Executing terraform apply...'
-                        sh 'terraform apply -auto-approve -lock=false -var display_name=${DISPLAY_NAME} -state=${stateFile}'
+                        //sh 'terraform apply -auto-approve -lock=false -var display_name=${DISPLAY_NAME} -state=${stateFile}'
                     }
                 }
 
