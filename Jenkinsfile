@@ -46,7 +46,7 @@ pipeline {
     }
     environment {
         DISPLAY_NAME = 'c1dev'
-        WORKSPACE = '/var/lib/jenkins/workspace'
+        WORKSPACE='/var/lib/jenkins'
         PLAN_FILE = 'plan/tfplan'
         STATE_FILE = 'state/terraform.tfstate'
         EXECUTE_DESTROY = 'false'
