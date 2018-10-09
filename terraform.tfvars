@@ -3,7 +3,6 @@
 private_key_path="/var/lib/jenkins/.ssh/id_rsa"
 ssh_authorized_keys="/home/opc/.ssh/id_rsa"
 
-
 # Regions
 region="us-phoenix-1"
 
