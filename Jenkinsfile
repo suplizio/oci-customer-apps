@@ -37,7 +37,7 @@ pipeline {
         stage('Nginx Configure ') {
             steps {
                 echo 'Running Ansible'
-                sh 'terraform output backend_public_ips'
+                sh 'terraform output backend_public_ips >> test.yml'
                 //sh 'ansible-playbook -i ${workspacePath}/${ANSIBLE_YML_DIR}/hosts.yml ${workspacePath}/${ANSIBLE_YML_DIR}/nginx_setup.yml'
 
             }
