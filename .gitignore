@@ -2,6 +2,9 @@
 *.tfstate
 *.tfstate.backup
 .DS_Store
+*.local
+*.groovy
+
 
 # intellij
 *.iml
