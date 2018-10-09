@@ -12,8 +12,8 @@ pipeline {
                     sh 'terraform init -input=false'
 
                     echo 'Executing terraform plan...'
-                    sh 'terraform plan -lock=false -var display_name=${DISPLAY_NAME} -out=${WORKSPACE}/${PLAN_OUTPUT} -state=${WORKSPACE}/${STATE_INPUT}'
-
+                    //sh 'terraform plan -lock=false -var display_name=${DISPLAY_NAME} -out=${WORKSPACE}/${PLAN_OUTPUT} -state=${WORKSPACE}/${STATE_INPUT}'
+                     sh 'terraform plan -lock=false -var display_name=${DISPLAY_NAME} -out=${WORKSPACE}/${PLAN_OUTPUT}'
                     if (executeDestroy) {
                         echo 'Executing terraform destroy...'
                         sh 'terraform destroy -auto-approve -lock=false -var display_name=${DISPLAY_NAME} -state=${WORKSPACE}/${STATE_INPUT}'
