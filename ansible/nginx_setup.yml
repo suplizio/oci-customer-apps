@@ -17,7 +17,6 @@
         - certbot
         - python2-certbot-nginx
       state: installed
-      disablerepo: ol7_developers
 
   - name: allow http/s service
     become: yes
