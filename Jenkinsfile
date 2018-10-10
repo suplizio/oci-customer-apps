@@ -28,18 +28,17 @@ pipeline {
                     echo 'Prepare Ansible Host file..'
                     sh 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips'
 
-                    def proc = "terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips".execute()
-                    def sb = new StringBuffer()
-                    proc.consumeProcessErrorStream(sb)
+                    // Test commit message for flags
+                    def output = sh returnStdout: true, script: 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips'
+                    println output
 
-                    println proc.text
                 }
             }
         }
         stage('Prepare Ansible Config files') {
             steps {
                 script {
-                    echo 'Apparently unreacheable..'
+                    echo 'Unreacheable?'
 
                 }
 
