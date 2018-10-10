@@ -1,5 +1,4 @@
 #Identity
-#ssh_public_key="/var/lib/jenkins/.ssh/id_rsa.pub"
 private_key_path="/var/lib/jenkins/.ssh/id_rsa"
 ssh_authorized_keys="/var/lib/jenkins/.ssh/id_rsa.pub"
 
@@ -15,6 +14,6 @@ region="us-phoenix-1"
 
 hostnames=["supliz.io"]
 hostname_names=["supliz.io"]
-backend_count = 1
+backend_count = 2
 display_name="lb"
 display_name_prefix="codeOne"
