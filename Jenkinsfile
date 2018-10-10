@@ -28,6 +28,11 @@ pipeline {
                     echo 'Prepare Ansible Host file..'
                     sh 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips'
 
+                    def proc = "terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips".execute()
+                    def sb = new StringBuffer()
+                    proc.consumeProcessErrorStream(sb)
+
+                    println proc.text
                 }
             }
         }
