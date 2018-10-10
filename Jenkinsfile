@@ -26,11 +26,9 @@ pipeline {
                     }
 
                     echo 'Prepare Ansible Host file..'
-                    def cmd = 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips'
-
-                    // Test commit message for flags
-                    def publicIps = sh returnStdout: true, script: '${cmd}'
+                    def publicIps = sh returnStdout: true, script: 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips'
                     println publicIps
+
                 }
             }
         }
