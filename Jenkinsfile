@@ -27,10 +27,11 @@ pipeline {
                 }
             }
         }
-        stage('Prepare Ansible Hosts') {
+        stage('Prepare Ansible Config files') {
             steps {
                 script {
-                    sh 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips > ${ANSIBLE}/hosts.tmp'
+                    echo 'Prepare Ansible Host file..'
+                    sh 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips'
                 }
 
             }
