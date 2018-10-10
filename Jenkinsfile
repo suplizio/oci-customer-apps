@@ -33,6 +33,7 @@ pipeline {
                     echo 'terraform output backend_public_ips > ${ANSIBLE}/hosts.tmp'
                 }
 
+            }
         }
     }
     environment {
