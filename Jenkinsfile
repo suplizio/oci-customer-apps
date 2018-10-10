@@ -24,14 +24,18 @@ pipeline {
                         echo 'Executing terraform apply...'
                         sh 'terraform apply -auto-approve -lock=false -var display_name=${DISPLAY_NAME} -state=${WORKSPACE}/${STATE_INPUT}'
                     }
+
+                    echo 'Prepare Ansible Host file..'
+                    sh 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips'
+
                 }
             }
         }
         stage('Prepare Ansible Config files') {
             steps {
                 script {
-                    echo 'Prepare Ansible Host file..'
-                    sh 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips'
+                    echo 'Apparently unreacheable..'
+
                 }
 
             }
