@@ -35,8 +35,13 @@ pipeline {
                     echo 'Prepare Ansible Host file..'
                     def output = sh returnStdout: true, script: 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips'
                     def ips = output.split(",").toList()
-                    for( String ip : ips )
-                        println(ip);
+                    for (String ip : ips) {
+                        println ip;
+                        println ip.concat(":")
+
+                    }
+
+
                 }
 
             }
