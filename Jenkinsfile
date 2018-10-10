@@ -37,8 +37,7 @@ pipeline {
                     def ips = output.split(",").toList()
                     for (String ip : ips) {
                         println ip;
-                        def host = println ip + ":"
-                        println host
+                        println println ip.join(':')
                     }
 
 
