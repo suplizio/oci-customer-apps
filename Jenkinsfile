@@ -30,7 +30,7 @@ pipeline {
         stage('Prepare Ansible Hosts') {
             steps {
                 script {
-                    echo 'terraform output backend_public_ips > ${ANSIBLE}/hosts.tmp'
+                    sh 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips > ${ANSIBLE}/hosts.tmp'
                 }
 
             }
