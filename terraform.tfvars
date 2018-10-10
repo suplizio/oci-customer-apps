@@ -1,7 +1,7 @@
 #Identity
 #ssh_public_key="/var/lib/jenkins/.ssh/id_rsa.pub"
 private_key_path="/var/lib/jenkins/.ssh/id_rsa"
-ssh_authorized_keys="/home/opc/.ssh/id_rsa"
+ssh_authorized_keys="/var/lib/jenkins/.ssh/id_rsa.pub"
 
 # Regions
 region="us-phoenix-1"

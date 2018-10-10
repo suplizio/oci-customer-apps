@@ -10,7 +10,6 @@ resource "oci_core_instance" "servers" {
     ssh_authorized_keys = "${file("${var.ssh_authorized_keys}")}"
     assign_public_ip    = "${var.assign_public_ip}"
     user_data = "${base64encode(file(var.bootstrap_file))}"
-
   }
 
   source_details {
