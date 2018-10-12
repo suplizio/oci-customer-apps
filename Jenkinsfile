@@ -60,7 +60,7 @@ pipeline {
         WORKSPACE = '/var/lib/jenkins/workspace'
         STATE_INPUT = 'state/terraform.tfstate'
         EXECUTE_DESTROY = 'false'
-        EXECUTE_APPLY = 'true'
+        EXECUTE_APPLY = 'false'
         ANSIBLE = 'ansible'
     }
 }
