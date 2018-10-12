@@ -33,9 +33,8 @@ pipeline {
                     def output = sh returnStdout: true, script: 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips'
                     def ips = output.tokenize(",")
                     def hostFile = pwd() + '/ansible/hosts.yml'
-                    def cmd ="\n"
                     for (i in ips) {
-                        cmd = cmd + "\t$i:"
+                        cmd = cmd + \n    $i:"
                     }
                     def readContent = readFile(hostFile).trim()
                     writeFile file: hostFile, text: readContent + cmd
