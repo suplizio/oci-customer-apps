@@ -36,6 +36,7 @@ pipeline {
                     def cmd =""
                     for (i in ips) {
                         cmd = cmd+ "echo $i"
+                        println cmd
                     }
                     def readContent = readFile hostFile
                     writeFile file: hostFile, text: readContent + cmd
