@@ -36,9 +36,10 @@ pipeline {
                     echo 'Prepare Ansible Host file..'
                     def output = sh returnStdout: true, script: 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips'
                     def ips = output.tokenize(",")
-                    def readContent = readFile 'ansible/hosts.yml'
-                    writeFile file: 'ansible/hosts.yml', text: readContent + ips[0] + ':\n'
-                    writeFile file: 'ansible/hosts.yml', text: readContent + ips[1] + ':'
+                    sh 'echo' + ips[0] + ':\n >> ansible/hosts.yml'
+                    sh 'echo' + ips[1] + ':\n >> ansible/hosts.yml'
+                    //def readContent = readFile 'ansible/hosts.yml'
+                    //writeFile file: 'ansible/hosts.yml', text: readContent + ips[1] + ':'
                 }
             }
         }
