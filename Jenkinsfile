@@ -31,11 +31,14 @@ pipeline {
                 script {
                     echo 'Prepare Ansible Host file..'
                     def output = sh returnStdout: true, script: 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips'
-                    def ips = output.tokenize("\\s*,\\s*")
+                    def ips = output.tokenize(",")
+                    ips = ips*.trim()
+
                     def hostFile = pwd() + '/ansible/hosts.yml'
                     def cmd = ""
                     for (i in ips) {
-                        cmd = cmd + "\n    $i:"
+                        def ip = i.trim()
+                        cmd = cmd + "    $i:"
                     }
                     def readContent = readFile(hostFile).trim()
                     writeFile file: hostFile, text: readContent + cmd
