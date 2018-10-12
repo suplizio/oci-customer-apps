@@ -35,7 +35,7 @@ pipeline {
                     def ips = output.tokenize(",")
                     def cmd =""
                     for (i in ips) {
-                        cmd = cmd+ "echo $i"
+                        cmd = cmd+ "    $i :"
                         println cmd
                     }
                     def readContent = readFile hostFile
