@@ -39,7 +39,7 @@ pipeline {
                     def cmd = "\n"
                     for (i in ips) {
                         def ip = i.trim()
-                        cmd = cmd + "    $i"
+                        cmd = cmd + "$i"
                     }
                     def readContent = readFile(hostFile).trim()
                     writeFile file: hostFile, text: readContent + cmd
