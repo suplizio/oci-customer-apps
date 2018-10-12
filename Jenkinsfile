@@ -53,4 +53,4 @@ pipeline {
         EXECUTE_APPLY = 'true'
         ANSIBLE = 'ansible'
     }
-}s
+}
