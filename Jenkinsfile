@@ -40,7 +40,7 @@ pipeline {
                         cmd = cmd + "    $ip"
                     }
                     writeFile file: hostFile, text: cmd
-                    def playbook = pwd() + '/ansible/nginx-setup.yml'
+                    def playbook = pwd() + '/ansible/nginx_setup.yml'
                     sh 'ansible-playbook -i ' + hostFile + ' ' + playbook + ' '
                 }
             }
