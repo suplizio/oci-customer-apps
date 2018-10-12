@@ -1,4 +1,5 @@
-def readContent = readFile 'ansible/hosts.yml'
+def workSpace = pwd()
+def readContent = readFile '${workSpace}/ansible/hosts.yml'
 
 def print_host_ip(input) {
     def ips = input.tokenize(",")
@@ -6,7 +7,7 @@ def print_host_ip(input) {
     for (i in ips) {
         cmd = cmd+ "echo $i"
     }
-    writeFile file: 'ansible/hosts.yml', text: readContent + cmd
+    writeFile file: '${workSpace}/ansible/hosts.yml', text: readContent + cmd
 }
 
 pipeline {
