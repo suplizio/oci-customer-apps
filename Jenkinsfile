@@ -34,7 +34,7 @@ pipeline {
                     def ips = output.tokenize(",")
                     def hostFile = pwd() + '/ansible/hosts.yml'
                     for (i in ips) {
-                        cmd = cmd + \n    $i:"
+                        cmd = cmd + "\n    $i:"
                     }
                     def readContent = readFile(hostFile).trim()
                     writeFile file: hostFile, text: readContent + cmd
