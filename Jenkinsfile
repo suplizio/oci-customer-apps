@@ -46,9 +46,9 @@ pipeline {
         stage('Build NGINX') {
             steps {
                 script {
-                    def hostFile = pwd() + '/ansible/hosts.yml'
+                    def hostsyml = pwd() + '/ansible/hosts.yml'
                     def playbook = pwd() + '/ansible/nginx_setup.yml'
-                    sh 'ansible-playbook -i ${hostFile} ${playbook}'
+                    sh 'ansible-playbook -i ${hostsyml} ${playbook}'
                 }
             }
         }
