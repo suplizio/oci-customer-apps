@@ -40,15 +40,10 @@ pipeline {
                         cmd = cmd + "    $ip"
                     }
                     writeFile file: hostFile, text: cmd
-                }
-            }
-        }
-        stage('Build NGINX') {
-            steps {
-                script {
-                    def hostsyml = pwd() + '/ansible/hosts.yml'
-                    def playbook = pwd() + '/ansible/nginx_setup.yml'
-                    sh 'ansible-playbook -i ${hostsyml} ${playbook}'
+
+                    def playbook = pwd() + '/ansible/nginx-setup.yml'
+                    sh 'ansible-playbook -i ${hostFile} ${playbook}'
+
                 }
             }
         }
