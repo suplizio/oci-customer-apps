@@ -47,8 +47,8 @@ pipeline {
             steps {
                 script {
                     echo 'Running Ansible Playbooks..'
-                    def hostFile = pwd() + '/ansible/hosts.yml'
-                    def playbook = pwd() + '/ansible/nginx_setup.yml'
+                    def hostFile = pwd() + '/${ANSIBLE_DIR}/${ANSIBLE_HOSTS}'
+                    def playbook = pwd() + '/${ANSIBLE_DIR}/${ANSIBLE_PLAYBOOK}'
                     sh 'ansible-playbook -i ' + hostFile + ' ' + playbook + ' '
                 }
             }
@@ -59,8 +59,10 @@ pipeline {
         PLAN_OUTPUT = 'plan/tfplan'
         WORKSPACE = '/var/lib/jenkins/workspace'
         STATE_INPUT = 'state/terraform.tfstate'
-        EXECUTE_DESTROY = 'false'
+        EXECUTE_DESTROY = 'true'
         EXECUTE_APPLY = 'true'
-        ANSIBLE = 'ansible'
+        ANSIBLE_DIR= 'ansible'
+        ANSIBLE_PLAYBOOK= 'nginx_setup.yml'
+        ANSIBLE_HOSTS = 'hosts.yml'
     }
 }
