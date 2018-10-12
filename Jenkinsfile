@@ -33,6 +33,7 @@ pipeline {
                     def output = sh returnStdout: true, script: 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips'
                     def ips = output.tokenize(",")
                     def hostFile = pwd() + '/ansible/hosts.yml'
+                    def cmd = ""s
                     for (i in ips) {
                         cmd = cmd + "\n    $i:"
                     }
