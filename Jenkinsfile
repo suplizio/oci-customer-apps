@@ -49,7 +49,8 @@ pipeline {
                     echo 'Running Ansible Playbooks..'
                     def hostFile = pwd() + '/${ANSIBLE_DIR}/${ANSIBLE_HOSTS}'
                     def playbook = pwd() + '/${ANSIBLE_DIR}/${ANSIBLE_PLAYBOOK}'
-                    sh 'ansible-playbook -i ' + hostFile + ' ' + playbook + ' '
+                    //sh 'ansible-playbook -i ' + hostFile + ' ' + playbook + ' '
+                    sh 'ansible-playbook ' + playbook + ' '
                 }
             }
         }
