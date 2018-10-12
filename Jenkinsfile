@@ -36,10 +36,19 @@ pipeline {
                     def cmd = "nginx-server:\n  hosts:\n"
                     cmd + "  hosts:\n"
                     for (i in ips) {
-                        def ip = i.trim() +':\n'
+                        def ip = i.trim() + ':\n'
                         cmd = cmd + "    $ip"
                     }
                     writeFile file: hostFile, text: cmd
+                }
+            }
+        }
+        stage('Build NGINX') {
+            steps {
+                script {
+                    def hostFile = pwd() + '/ansible/hosts.yml'
+                    def playbook = pwd() + '/ansible/nginx_setup.yml'
+                    sh 'ansible-playbooks -i ${hostFile} ${playbook}'
                 }
             }
         }
