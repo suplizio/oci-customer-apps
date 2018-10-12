@@ -27,24 +27,43 @@ pipeline {
             }
         }
         stage('Ansible Configuration') {
-            steps {
-                script {
-                    echo 'Prepare Ansible Host file..'
-                    def output = sh returnStdout: true, script: 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips'
-                    def ips = output.tokenize("\\s*,\\s*")
-                    def hostFile = pwd() + '/ansible/hosts.yml'
-                    def cmd = "nginx-server:\n  hosts:\n"
-                    cmd + "  hosts:\n"
-                    for (i in ips) {
-                        def ip = i.trim() + ':\n'
-                        cmd = cmd + "    $ip"
-                    }
-                    writeFile file: hostFile, text: cmd
-                    def playbook = pwd() + '/ansible/nginx_setup.yml'
-                    sh 'ansible-playbook -i ' + hostFile + ' ' + playbook + ' '
-                }
-            }
-        }
+                     steps {
+                         script {
+                             echo 'Prepare Ansible Host file..'
+                             def output = sh returnStdout: true, script: 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips'
+                             def ips = output.tokenize("\\s*,\\s*")
+                             def hostFile = pwd() + '/ansible/hosts.yml'
+                             def cmd = "nginx-server:\n  hosts:\n"
+                             cmd + "  hosts:\n"
+                             for (i in ips) {
+                                 def ip = i.trim() + ':\n'
+                                 cmd = cmd + "    $ip"
+                             }
+                             writeFile file: hostFile, text: cmd
+                             def playbook = pwd() + '/ansible/nginx_setup.yml'
+                             sh 'ansible-playbook -i ' + hostFile + ' ' + playbook + ' '
+                         }
+                     }
+                 }
+                 stage('Ansible Configuration') {
+                                      steps {
+                                          script {
+                                              echo 'Prepare Ansible Host file..'
+                                              def output = sh returnStdout: true, script: 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips'
+                                              def ips = output.tokenize("\\s*,\\s*")
+                                              def hostFile = pwd() + '/ansible/hosts.yml'
+                                              def cmd = "nginx-server:\n  hosts:\n"
+                                              cmd + "  hosts:\n"
+                                              for (i in ips) {
+                                                  def ip = i.trim() + ':\n'
+                                                  cmd = cmd + "    $ip"
+                                              }
+                                              writeFile file: hostFile, text: cmd
+                                              def playbook = pwd() + '/ansible/nginx_setup.yml'
+                                              sh 'ansible-playbook -i ' + hostFile + ' ' + playbook + ' '
+                                          }
+                                      }
+                                  }
     }
     environment {
         DISPLAY_NAME = 'c1dev'
