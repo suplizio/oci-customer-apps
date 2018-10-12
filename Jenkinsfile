@@ -1,13 +1,12 @@
-def workSpace = pwd()
-def readContent = readFile '${workSpace}/ansible/hosts.yml'
-
-def print_host_ip(input) {
+def print_host_ip(input,path) {
+    def hostFile = path + '/ansible/hosts.yml'
     def ips = input.tokenize(",")
     def cmd=""
     for (i in ips) {
         cmd = cmd+ "echo $i"
     }
-    writeFile file: '${workSpace}/ansible/hosts.yml', text: readContent + cmd
+    def readContent = readFile file
+    writeFile file: hostFile, text: readContent + cmd
 }
 
 pipeline {
@@ -43,7 +42,7 @@ pipeline {
                 script {
                     echo 'Prepare Ansible Host file..'
                     def output = sh returnStdout: true, script: 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips'
-                    print_host_ip(output)
+                    print_host_ip(output, pwd())
                 }
             }
         }
