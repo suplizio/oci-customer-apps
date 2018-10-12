@@ -38,7 +38,7 @@ pipeline {
                     def ips = output.tokenize(",")
                     def readContent = readFile 'ansible/hosts.yml'
                     for(String ip : ips) {
-                        writeFile file: 'ansible/hosts.yml', text: readContent+"\n"+ print_host_ip(ip) + ':'
+                        writeFile file: 'ansible/hosts.yml', text: readContent + ip + ':\n'
                     }
                 }
             }
