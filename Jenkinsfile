@@ -48,7 +48,7 @@ pipeline {
                 script {
                     def hostFile = pwd() + '/ansible/hosts.yml'
                     def playbook = pwd() + '/ansible/nginx_setup.yml'
-                    sh 'ansible-playbooks -i ${hostFile} ${playbook}'
+                    sh 'ansible-playbook -i ${hostFile} ${playbook}'
                 }
             }
         }
