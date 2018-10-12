@@ -1,14 +1,3 @@
-def print_host_ip(input,path) {
-    def hostFile = path + '/ansible/hosts.yml'
-    def ips = input.tokenize(",")
-    def cmd=""
-    for (i in ips) {
-        cmd = cmd+ "echo $i"
-    }
-    def readContent = readFile file
-    writeFile file: hostFile, text: readContent + cmd
-}
-
 pipeline {
     agent any
     stages {
@@ -42,7 +31,14 @@ pipeline {
                 script {
                     echo 'Prepare Ansible Host file..'
                     def output = sh returnStdout: true, script: 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips'
-                    print_host_ip(output, pwd())
+                    def hostFile = '/ansible/hosts.yml'
+                    def ips = output.tokenize(",")
+                    def cmd =""
+                    for (i in ips) {
+                        cmd = cmd+ "echo $i"
+                    }
+                    def readContent = readFile hostFile
+                    writeFile file: hostFile, text: readContent + cmd
                 }
             }
         }
