@@ -43,7 +43,7 @@ pipeline {
                         cmd = cmd + "$ip"
                     }
                     //def readContent = readFile(hostFile).trim()
-                    writeFile file: hostFile, text: readContent + cmd
+                    writeFile file: hostFile, text: sscmd
                 }
             }
         }
