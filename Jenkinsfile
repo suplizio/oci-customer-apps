@@ -1,3 +1,7 @@
+def print_host_ip(ip) {
+    println "${ip}:"
+}
+
 pipeline {
     agent any
     stages {
@@ -23,8 +27,6 @@ pipeline {
                         echo 'Executing terraform apply...'
                         sh 'terraform apply -no-color -auto-approve -lock=false -var display_name=${DISPLAY_NAME} -state=${WORKSPACE}/${STATE_INPUT}'
                     }
-
-
                 }
             }
         }
@@ -33,10 +35,12 @@ pipeline {
                 script {
                     echo 'Prepare Ansible Host file..'
                     def output = sh returnStdout: true, script: 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips'
-                    def ips = output.split(",").toList()
-                    /*for (String ip : ips) {
-                        println ip;
-                    }*/
+                    def ips = output.tokenize(",")
+                    def readContent = readFile 'ansible/hosts.yml'
+                    for(String ip : ips) {
+                        print_host_ip(ip)
+                        writeFile file: 'ansible/hosts.yml' , text: readContent+"\r\n"+ ip + ':'
+                    }
                 }
             }
         }
@@ -46,8 +50,8 @@ pipeline {
         PLAN_OUTPUT = 'plan/tfplan'
         WORKSPACE = '/var/lib/jenkins/workspace'
         STATE_INPUT = 'state/terraform.tfstate'
-        EXECUTE_DESTROY = 'false'
-        EXECUTE_APPLY = 'true'
+        EXECUTE_DESTROY = 'true'
+        EXECUTE_APPLY = 'false'
         ANSIBLE = 'ansible'
     }
 }
