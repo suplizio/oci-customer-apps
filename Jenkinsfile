@@ -36,7 +36,7 @@ pipeline {
                     println test
                     def ips = output.tokenize("\\s*,\\s*")
                     def hostFile = pwd() + '/ansible/hosts.yml'
-                    def cmd = "\ns"
+                    def cmd = "\n"
                     for (i in ips) {
                         def ip = i.trim()
                         cmd = cmd + "    $i"
