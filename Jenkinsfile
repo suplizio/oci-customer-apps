@@ -36,12 +36,13 @@ pipeline {
                     println test
                     def ips = output.tokenize("\\s*,\\s*")
                     def hostFile = pwd() + '/ansible/hosts.yml'
-                    def cmd = "\n"
+                    def cmd = "nginx-server:\n"
+                    cmd+"  hosts:\n"
                     for (i in ips) {
                         def ip = i.trim()
-                        cmd = cmd + "$i"
+                        cmd = cmd + "$ip"
                     }
-                    def readContent = readFile(hostFile).trim()
+                    //def readContent = readFile(hostFile).trim()
                     writeFile file: hostFile, text: readContent + cmd
                 }
             }
