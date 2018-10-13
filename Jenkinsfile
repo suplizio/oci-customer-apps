@@ -51,7 +51,7 @@ pipeline {
                     echo 'Running Ansible Playbooks..'
                     def hostFile = pwd() + '${ANSIBLE_HOSTS}'
                     def playbook = pwd() + '${ANSIBLE_PLAYBOOK}'
-                    sh 'ansible-playbook -i ' + hostFile + ' ' + playbook + ' '
+                    sh 'ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ' + hostFile + ' ' + playbook + ' '
                 }
             }
         }
