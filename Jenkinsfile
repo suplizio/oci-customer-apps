@@ -32,9 +32,10 @@ pipeline {
                     echo 'Prepare Ansible Host file..'
                     def output = sh returnStdout: true, script: 'terraform output -state=${STATE_FILE} backend_public_ips'
                     def ips = output.tokenize("\\s*,\\s*")
-                    def hostFile = pwd() + '${ANSIBLE_HOSTS}'
+                    def hostFile = pwd() + '${ANSIBLE_HOST_FILE}'
                     def cmd = "nginx-server:\n  hosts:\n"
                     cmd + "  hosts:\n"
+
                     println cmd
 
                     for (i in ips) {
@@ -42,6 +43,9 @@ pipeline {
                         cmd = cmd + "    $ip"
                     }
                     writeFile file: hostFile, text: cmd
+
+                    println cmd
+
                 }
             }
         }
@@ -49,7 +53,7 @@ pipeline {
             steps {
                 script {
                     echo 'Running Ansible Playbooks..'
-                    def hostFile = pwd() + '${ANSIBLE_HOSTS}'
+                    def hostFile = pwd() + '${ANSIBLE_HOST_FILE}'
                     def playbook = pwd() + '${ANSIBLE_PLAYBOOK}'
                     sh 'ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ' + hostFile + ' ' + playbook + ' '
                 }
@@ -59,9 +63,9 @@ pipeline {
     environment {
         DISPLAY_NAME = 'c1dev'
         STATE_FILE = '/var/lib/jenkins/workspace/tf_state_files/terraform.tfstate'
-        EXECUTE_DESTROY = 'false'
+        EXECUTE_DESTROY = 'true'
         EXECUTE_APPLY = 'true'
-        ANSIBLE_HOSTS = '/ansible/hosts.yml'
+        ANSIBLE_HOST_FILE = '/ansible/hosts.yml'
         ANSIBLE_PLAYBOOK = '/ansible/nginx_setup.yml'
     }
 }
