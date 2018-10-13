@@ -35,7 +35,7 @@ pipeline {
                     def hostFile = pwd() + '${ANSIBLE_HOSTS}'
                     def cmd = "nginx-server:\n  hosts:\n"
                     cmd + "  hosts:\n"
-                    prinln cmd
+                    println cmd
 
                     for (i in ips) {
                         def ip = i.trim() + ':\n'
