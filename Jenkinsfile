@@ -10,18 +10,18 @@ pipeline {
                     git(url: 'git@github.com:suplizio/oci-customer-apps.git', branch: 'master', credentialsId: 'suplizio')
 
                     echo 'Executing terraform init...'
-                    sh 'terraform init -input=false -no-color '
+                    sh 'terraform init -lock=true -no-color '
 
                     echo 'Executing terraform plan...'
-                    sh 'terraform plan -lock=false -no-color -var display_name=${DISPLAY_NAME} -out=${WORKSPACE}/${PLAN_OUTPUT} -state=${WORKSPACE}/${STATE_INPUT}'
+                    sh 'terraform plan -lock=true -no-color -var display_name=${DISPLAY_NAME} -state=${STATE_FILE}'
 
                     if (executeDestroy) {
                         echo 'Executing terraform destroy...'
-                        sh 'terraform destroy -no-color  -auto-approve -lock=false -var display_name=${DISPLAY_NAME} -state=${WORKSPACE}/${STATE_INPUT}'
+                        sh 'terraform destroy -lock=true -no-color  -auto-approve -lock=false -var display_name=${DISPLAY_NAME} -state=${STATE_FILE}'
                     }
                     if (executeApply) {
                         echo 'Executing terraform apply...'
-                        sh 'terraform apply -no-color -auto-approve -lock=false -var display_name=${DISPLAY_NAME} -state=${WORKSPACE}/${STATE_INPUT}'
+                        sh 'terraform apply -lock=true -no-color -auto-approve -lock=false -var display_name=${DISPLAY_NAME} -state=${STATE_FILE}'
                     }
                 }
             }
@@ -30,11 +30,13 @@ pipeline {
             steps {
                 script {
                     echo 'Prepare Ansible Host file..'
-                    def output = sh returnStdout: true, script: 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips'
+                    def output = sh returnStdout: true, script: 'terraform output -state=${STATE_FILE} backend_public_ips'
                     def ips = output.tokenize("\\s*,\\s*")
-                    def hostFile = pwd() + '/ansible/hosts.yml'
+                    def hostFile = pwd() + '${ANSIBLE_HOSTS}'
                     def cmd = "nginx-server:\n  hosts:\n"
                     cmd + "  hosts:\n"
+                    prinln cmd
+
                     for (i in ips) {
                         def ip = i.trim() + ':\n'
                         cmd = cmd + "    $ip"
@@ -47,8 +49,8 @@ pipeline {
             steps {
                 script {
                     echo 'Running Ansible Playbooks..'
-                    def hostFile = pwd() + '/ansible/hosts.yml'
-                    def playbook = pwd() + '/ansible/nginx_setup.yml'
+                    def hostFile = pwd() + '${ANSIBLE_HOSTS}'
+                    def playbook = pwd() + '${ANSIBLE_PLAYBOOK}'
                     sh 'ansible-playbook -i ' + hostFile + ' ' + playbook + ' '
                 }
             }
@@ -56,11 +58,10 @@ pipeline {
     }
     environment {
         DISPLAY_NAME = 'c1dev'
-        PLAN_OUTPUT = 'plan/tfplan'
-        WORKSPACE = '/var/lib/jenkins/workspace'
-        STATE_INPUT = 'state/terraform.tfstate'
+        STATE_FILE = '/var/lib/jenkins/workspace/tf_state_files/terraform.tfstate'
         EXECUTE_DESTROY = 'false'
-        EXECUTE_APPLY = 'false'
-        ANSIBLE = 'ansible'
+        EXECUTE_APPLY = 'true'
+        ANSIBLE_HOSTS = '/ansible/hosts.yml'
+        ANSIBLE_PLAYBOOK = '/ansible/nginx_setup.yml'
     }
 }
