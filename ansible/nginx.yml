@@ -30,7 +30,7 @@
     become_method: sudo
       copy:
         src: supliz.io.conf
-        dest: /etc/nginx/conf.d/supliz.io.conf
+        dest: /etc/nginx/conf.d/
 
   - name: copy app web artifacts
     become: yes
