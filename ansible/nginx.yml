@@ -1,5 +1,5 @@
 - hosts: all
-  remote_user: nginx
+  remote_user: opc
   become: yes
   become_method: sudo
 
