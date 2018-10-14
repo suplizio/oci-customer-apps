@@ -63,7 +63,7 @@ pipeline {
     environment {
         DISPLAY_NAME = 'c1dev'
         STATE_FILE = '/var/lib/jenkins/workspace/tf_state_files/terraform.tfstate'
-        EXECUTE_DESTROY = 'true'
+        EXECUTE_DESTROY = 'false'
         EXECUTE_APPLY = 'true'
         ANSIBLE_HOST_FILE = '/ansible/hosts.yml'
         ANSIBLE_PLAYBOOK = '/ansible/nginx_setup.yml'
