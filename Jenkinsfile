@@ -35,17 +35,12 @@ pipeline {
                     def hostFile = pwd() + '${ANSIBLE_HOST_FILE}'
                     def cmd = "nginx-server:\n  hosts:\n"
                     cmd + "  hosts:\n"
-
-                    println cmd
-
                     for (i in ips) {
                         def ip = i.trim() + ':\n'
                         cmd = cmd + "    $ip"
                     }
                     writeFile file: hostFile, text: cmd
-
                     println cmd
-
                 }
             }
         }
@@ -62,7 +57,7 @@ pipeline {
     }
     environment {
         DISPLAY_NAME = 'c1dev'
-        STATE_FILE = '/var/lib/jenkins/workspace/tf_state_files/terraform.tfstate'
+        STATE_FILE = '/var/lib/jenkins/workspace/tf_files/terraform.tfstate'
         EXECUTE_DESTROY = 'false'
         EXECUTE_APPLY = 'true'
         ANSIBLE_HOST_FILE = '/ansible/hosts.yml'
