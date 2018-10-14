@@ -1,5 +1,5 @@
-- hosts:  nginx-server
-  remote_user: opc
+- hosts: app
+  remote_user: nginx
   become: yes
   become_method: sudo
 
@@ -13,19 +13,17 @@
   - name: install nginx
     yum:
       name:
-        - nginx
-        - certbot
-        - python2-certbot-nginx
+      - nginx
+      - certbot
+      - python2-certbot-nginx
       state: installed
 
-  - name: allow http/s service
+  - name: copy web artifacts
     become: yes
     become_method: sudo
-    command: firewall-cmd --permanent --zone=public --add-service=http --add-service=https
-
-  - name: bounce firewall
-    command: firewall-cmd --reload
-
+    copy:
+      src: ../app
+      dest: /usr/share/nginx/html
 
   - name: nginx verify
     become: yes
@@ -37,10 +35,10 @@
     become_method: sudo
     command: systemctl start nginx
 
-  - name: copy web artifacts
+  - name: allow http/s service
     become: yes
     become_method: sudo
-    copy:
-      src: web
-      dest: /usr/share/nginx/html
-      remote_src: yes
+    command: firewall-cmd --permanent --zone=public --add-service=http --add-service=https
+
+  - name: bounce firewall
+    command: firewall-cmd --reload
