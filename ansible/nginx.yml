@@ -38,7 +38,6 @@
     copy:
       src: app.cfg
       dest: /etc/nginx/sites-available/app.cfg
-      become: yes
 
   - name: create symlink
     become: yes
