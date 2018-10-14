@@ -4,9 +4,6 @@
   become_method: sudo
   gather_facts: True
 
-  vars:
-    host_ip: {{ ansible_default_ipv4.address }}
-
   tasks:
 
   - name: Gather facts from new server
