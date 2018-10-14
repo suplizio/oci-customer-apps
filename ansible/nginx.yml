@@ -31,6 +31,11 @@
       src: nginx.conf.j2
       dest: nginx.conf
 
+  - name: copy the nginx config file
+    copy:
+      src: ./nginx.conf
+      dest: /etc/nginx/nginx.conf
+
   - name: copy app web artifacts
     become: yes
     become_method: sudo
