@@ -2,8 +2,16 @@
   remote_user: opc
   become: yes
   become_method: sudo
+  gather_facts: True
+
+  vars:
+    host_ip: {{ ansible_default_ipv4.address }}
 
   tasks:
+
+  - name: Gather facts from new server
+    setup:
+      filter: ansible_default_ipv4.address
 
   - name: download new OCI repo
     get_url:
@@ -18,10 +26,10 @@
       - python2-certbot-nginx
       state: installed
 
-  - name: copy the nginx config file
-    copy:
-      src: ./nginx.conf
-      dest: /etc/nginx/nginx.conf
+  - name: Ansible Template Example
+    template:
+      src: nginx.conf.j2
+      dest: nginx.conf
 
   - name: copy app web artifacts
     become: yes
