@@ -24,7 +24,7 @@ http {
     root    /usr/share/nginx/html/;
     server_name  supliz.io www.supliz.io;
     location  / {
-      add_header backend-ip {{ host_ip }};
+      add_header backend-ip {{ ansible_default_ipv4.address }};
       add_header host-ip    $host;
       try_files $uri $uri/ =404;
     }
