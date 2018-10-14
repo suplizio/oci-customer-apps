@@ -18,41 +18,27 @@
       - python2-certbot-nginx
       state: installed
 
-  - name: make sites-available directory
+  - name: make supliz.io directory
     become: yes
     become_method: sudo
     file:
-      path: /etc/nginx/sites-available/
+      path: /var/www/supliz.io
       state: directory
 
-  - name: make sites-enabled directory
-    become: yes
-    become_method: sudo
-    file:
-      path:  /etc/nginx/sites-enabled/
-      state: directory
 
-  - name: copy the nginx app config file
-    become: yes
-    become_method: sudo
-    copy:
-      src: app.cfg
-      dest: /etc/nginx/sites-available/app.cfg
-
-  - name: create symlink
-    become: yes
-    become_method: sudo
-    file:
-      src: /etc/nginx/sites-available/app.cfg
-      dest: /etc/nginx/sites-enabled/default
-      state: link
+  - name: copy the nginx app config file to conf.d
+      become: yes
+      become_method: sudo
+      copy:
+        src: supliz.io.conf
+        dest: /etc/nginx/conf.d/supliz.io.conf
 
   - name: copy app web artifacts
     become: yes
     become_method: sudo
     copy:
       src: ../app
-      dest: /home/opc
+      dest: /var/www/supliz.io
 
   - name: nginx verify
     become: yes
