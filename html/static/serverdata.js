@@ -4,10 +4,10 @@ request.onreadystatechange = function() {
   if(this.readyState == this.HEADERS_RECEIVED) {
 
     var backendIp = request.getResponseHeader("backend-ip");
-    var lb-ip = request.getResponseHeader("host-ip");
+    var lbIp = request.getResponseHeader("host-ip");
 
     document.getElementById("backend-ip").innerHTML = backendIp;
-    document.getElementById("lb-ip").innerHTML = lb-ip;
+    document.getElementById("lb-ip").innerHTML = lbIp;
     var headers = request.getAllResponseHeaders();
     var arr = headers.trim().split(/[\r\n]+/);
     var headerMap = {};
