@@ -25,12 +25,10 @@
       path: /var/www/supliz.io
       state: directory
 
-  - name: copy the nginx app config file to conf.d
-    become: yes
-    become_method: sudo
-      copy:
-        src: supliz.io.conf
-        dest: /etc/nginx/conf.d/
+  - name: copy the web-app config file to conf.d
+    copy:
+      src: ./supliz.io.conf
+      dest: /etc/nginx/conf.d/supliz.io.conf
 
   - name: copy app web artifacts
     become: yes
