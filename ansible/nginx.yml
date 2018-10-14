@@ -36,11 +36,13 @@
     become: yes
     become_method: sudo
     copy:
-      src: ./app.cfg
+      src: app.cfg
       dest: /etc/nginx/sites-available/app.cfg
       become: yes
 
   - name: create symlink
+    become: yes
+    become_method: sudo
     file:
       src: /etc/nginx/sites-available/app.cfg
       dest: /etc/nginx/sites-enabled/default
