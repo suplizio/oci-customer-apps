@@ -41,6 +41,6 @@
     become: yes
     become_method: sudo
     copy:
-      src: ../web
+      src: web
       dest: /usr/share/nginx/html
       remote_src: yes
