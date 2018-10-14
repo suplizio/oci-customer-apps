@@ -18,9 +18,13 @@
       - python2-certbot-nginx
       state: installed
 
-  - name: copy the nginx config file and restart nginx
+  - name: make sites-available directory
+
+  - name: copy the nginx app config file
+    become: yes
+    become_method: sudo
     copy:
-      src: ../app/app.cfg
+      src: ./app.cfg
       dest: /etc/nginx/sites-available/app.cfg
       become: yes
 
