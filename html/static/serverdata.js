@@ -1,27 +1,20 @@
-/*
-var req = new XMLHttpRequest();
-req.open('GET', document.location, false);
-req.send(null);
-var headers = req.getAllResponseHeaders().toLowerCase();
-alert(headers);
- */
-var xhr = new XMLHttpRequest();
-xhr.open("GET", document.location, true);
-xhr.onload = function (e) {
-  if (xhr.readyState === 4) {
-    if (xhr.status === 200) {
-      console.log(xhr.responseText);
-      console.log(xhr.getAllResponseHeaders().toLowerCase())
-      console.log("server -->  " + xhr.getResponseHeader("server"))
-      // alert(xhr.getAllResponseHeaders().toLowerCase())
-      document.getElementById("server_id").innerHTML = xhr.getResponseHeader("server");
+var request = new XMLHttpRequest();
+request.open("GET", document.location, true);
+request.onreadystatechange = function() {
+  if(this.readyState == this.HEADERS_RECEIVED) {
 
-    } else {
-      console.error(xhr.statusText);
-    }
+    var backendIp = request.getResponseHeader("backend-ip");
+    document.getElementById("backend-ip").innerHTML = backendIp;
+    var headers = request.getAllResponseHeaders();
+    var arr = headers.trim().split(/[\r\n]+/);
+    var headerMap = {};
+    arr.forEach(function (line) {
+      console.log("line -> " + line);
+      var parts = line.split(': ');
+      var header = parts.shift();
+      var value = parts.join(': ');
+      headerMap[header] = value;
+    });
   }
-};
-xhr.onerror = function (e) {
-  console.error(xhr.statusText);
-};
-xhr.send(null);
+}
+request.send(null);
