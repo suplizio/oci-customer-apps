@@ -13,7 +13,7 @@ pipeline {
                     sh 'terraform init -input=false -no-color '
 
                     echo 'Executing terraform plan...'
-                    sh 'terraform plan -input=false lock=false -no-color -var display_name=${DISPLAY_NAME} -out=${WORKSPACE}/${PLAN_OUTPUT} -state=${WORKSPACE}/${STATE_INPUT}'
+                    sh 'terraform plan -input=false -lock=false -no-color -var display_name=${DISPLAY_NAME}  -state=${WORKSPACE}/${STATE_INPUT} -out=${WORKSPACE}/${PLAN_OUTPUT}'
 
                     if (executeDestroy) {
                         echo 'Executing terraform destroy...'
