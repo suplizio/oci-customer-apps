@@ -23,20 +23,13 @@
       src: ./nginx.conf
       dest: /etc/nginx/nginx.conf
 
-  - name: make web-app directory
-    become: yes
-    become_method: sudo
-    file:
-      path: /var/www/virtual/webapp/
-      state: directory
-      mode: 0755
-
   - name: copy app web artifacts
     become: yes
     become_method: sudo
     copy:
-      src: ../htdocs
-      dest: /var/www/virtual/webapp/
+      src: ../html
+      dest: /usr/share/nginx
+      mode: 0755
 
   - name: nginx verify
     become: yes
