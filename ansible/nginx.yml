@@ -1,4 +1,4 @@
-- hosts: app
+- hosts: all
   remote_user: nginx
   become: yes
   become_method: sudo
@@ -25,10 +25,10 @@
       become: yes
 
   - name: create symlink
-      file:
-        src: /etc/nginx/sites-available/app.cfg
-        dest: /etc/nginx/sites-enabled/default
-        state: link
+    file:
+      src: /etc/nginx/sites-available/app.cfg
+      dest: /etc/nginx/sites-enabled/default
+      state: link
 
   - name: copy app web artifacts
     become: yes
