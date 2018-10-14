@@ -19,6 +19,18 @@
       state: installed
 
   - name: make sites-available directory
+    become: yes
+    become_method: sudo
+    file:
+      path: /etc/nginx/sites-available/
+      state: directory
+
+  - name: make sites-enabled directory
+    become: yes
+    become_method: sudo
+    file:
+      path:  /etc/nginx/sites-enabled/
+      state: directory
 
   - name: copy the nginx app config file
     become: yes
@@ -39,7 +51,7 @@
     become_method: sudo
     copy:
       src: ../app
-      dest: /usr/share/nginx/html
+      dest: /home/opc
 
   - name: nginx verify
     become: yes
