@@ -18,7 +18,19 @@
       - python2-certbot-nginx
       state: installed
 
-  - name: copy web artifacts
+  - name: copy the nginx config file and restart nginx
+    copy:
+      src: ../app/app.cfg
+      dest: /etc/nginx/sites-available/app.cfg
+      become: yes
+
+  - name: create symlink
+      file:
+        src: /etc/nginx/sites-available/app.cfg
+        dest: /etc/nginx/sites-enabled/default
+        state: link
+
+  - name: copy app web artifacts
     become: yes
     become_method: sudo
     copy:
