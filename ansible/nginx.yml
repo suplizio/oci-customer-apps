@@ -18,24 +18,25 @@
       - python2-certbot-nginx
       state: installed
 
+  - name: copy the nginx config file
+    copy:
+      src: ./nginx.conf
+      dest: /etc/nginx/nginx.conf
+
   - name: make web-app directory
     become: yes
     become_method: sudo
     file:
-      path: /var/www/supliz.io
+      path: /var/www/virtual/webapp/
       state: directory
-
-  - name: copy the web-app config file to conf.d
-    copy:
-      src: ./supliz.io.conf
-      dest: /etc/nginx/conf.d/supliz.io.conf
+      mode: 0755
 
   - name: copy app web artifacts
     become: yes
     become_method: sudo
     copy:
-      src: ../app
-      dest: /var/www/supliz.io
+      src: ../htdocs
+      dest: /var/www/virtual/webapp/
 
   - name: nginx verify
     become: yes
