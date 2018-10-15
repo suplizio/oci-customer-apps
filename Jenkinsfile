@@ -1,7 +1,3 @@
-
-boolean executeDestroy = new Boolean(env.EXECUTE_DESTROY)
-boolean executeApply = new Boolean(env.EXECUTE_APPLY)
-
 pipeline {
   agent any
 
@@ -18,6 +14,9 @@ pipeline {
           echo 'Executing terraform plan...'
           sh 'terraform plan -input=false -lock=false -no-color -var display_name=${DISPLAY_NAME}  -state=${WORKSPACE}/${STATE_INPUT} -out=${WORKSPACE}/${PLAN_OUTPUT}'
 
+          boolean executeDestroy = new Boolean(env.EXECUTE_DESTROY)
+          boolean executeApply = new Boolean(env.EXECUTE_APPLY)
+
           if (executeDestroy) {
             echo 'Executing terraform destroy...'
             sh 'terraform destroy -input=false -no-color -auto-approve -lock=false -var display_name=${DISPLAY_NAME} -state=${WORKSPACE}/${STATE_INPUT}'
@@ -33,6 +32,7 @@ pipeline {
     stage('Create Ansible config files') {
       steps {
         script {
+          boolean executeApply = new Boolean(env.EXECUTE_APPLY)
           if (executeApply) {
             echo 'Prepare Ansible Host file..'
             def output = sh returnStdout: true, script: 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips'
@@ -55,6 +55,7 @@ pipeline {
     stage('Run Ansible Playbook') {
       steps {
         script {
+          boolean executeApply = new Boolean(env.EXECUTE_APPLY)
           if (executeApply) {
             echo 'Running Ansible Playbooks..'
             def playbook = pwd() + '/ansible/nginx.yml'
