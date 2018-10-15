@@ -1,11 +1,13 @@
 pipeline {
     agent any
+
+    boolean executeDestroy = new Boolean(env.EXECUTE_DESTROY)
+    boolean executeApply = new Boolean(env.EXECUTE_APPLY)
+
     stages {
         stage('Checkout and Deploy') {
             steps {
                 script {
-                    boolean executeDestroy = new Boolean(env.EXECUTE_DESTROY)
-                    boolean executeApply = new Boolean(env.EXECUTE_APPLY)
 
                     git(url: 'git@github.com:suplizio/oci-customer-apps.git', branch: 'master', credentialsId: 'suplizio')
 
@@ -63,6 +65,6 @@ pipeline {
         PLAN_OUTPUT = 'tfplan'
         STATE_INPUT = 'terraform.tfstate'
         EXECUTE_DESTROY = 'true'
-        EXECUTE_APPLY = 'true'
+        EXECUTE_APPLY = 'false'
     }
 }
