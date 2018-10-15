@@ -5,7 +5,7 @@ This example shows how to deploy the public Load Balancer on Oracle Cloud Infras
 * Two instances running (in different subnets)
 * A public load balancer
 
-![LB example](./images/lb-example.png)
+![LB example](html/lb-example.png)
 
 ### Using this example
 Prepare one variable file named "terraform.tfvars" with the required information. The content of "terraform.tfvars" should look something like the following:
