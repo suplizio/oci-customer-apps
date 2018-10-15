@@ -31,6 +31,7 @@ pipeline {
         stage('Create Ansible config files') {
             steps {
                 script {
+                if (executeApply) {
                     echo 'Prepare Ansible Host file..'
                     def output = sh returnStdout: true, script: 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips'
                     def ips = output.tokenize("\\s*,\\s*")
@@ -42,6 +43,9 @@ pipeline {
                         cmd = cmd + "    $ip"
                     }
                     writeFile file: hostFile, text: cmd
+                }
+                } else [
+
                 }
             }
         }
