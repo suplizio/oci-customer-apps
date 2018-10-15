@@ -23,9 +23,10 @@ http {
     listen  [::]:80 default_server;
     root    /usr/share/nginx/html/;
     server_name  supliz.io www.supliz.io;
+
     location  / {
-      add_header backend-ip $remote_addr;
-      add_header host-ip    $host;
+      add_header backend-ip {{ host_ip}};
+      add_header backend-ip  $host;
       try_files $uri $uri/ =404;
     }
   }

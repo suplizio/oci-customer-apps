@@ -2,8 +2,11 @@
   remote_user: opc
   become: yes
   become_method: sudo
+  vars_files:
+    - vars.yml
 
   tasks:
+  - debug: var=hostvars[inventory_hostname]['ansible_enp0s3']['ipv4']['address']
 
   - name: download new OCI repo
     get_url:
@@ -18,10 +21,11 @@
       - python2-certbot-nginx
       state: installed
 
-  - name: copy the nginx config file
-    copy:
-      src: ./nginx.conf
+  - template:
+      src: ./nginx.conf.j2
       dest: /etc/nginx/nginx.conf
+      force: true
+      become: true
 
   - name: copy app web artifacts
     become: yes
