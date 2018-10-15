@@ -31,20 +31,21 @@ pipeline {
         stage('Create Ansible config files') {
             steps {
                 script {
-                if (executeApply) {
-                    echo 'Prepare Ansible Host file..'
-                    def output = sh returnStdout: true, script: 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips'
-                    def ips = output.tokenize("\\s*,\\s*")
-                    def hostFile = pwd() + '/ansible/hosts.yml'
-                    def cmd = "app:\n  hosts:\n"
-                    cmd + "  hosts:\n"
-                    for (i in ips) {
-                        def ip = i.trim() + ':\n'
-                        cmd = cmd + "    $ip"
+                    if (executeApply) {
+                        echo 'Prepare Ansible Host file..'
+                        def output = sh returnStdout: true, script: 'terraform output -state=${WORKSPACE}/${STATE_INPUT} backend_public_ips'
+                        def ips = output.tokenize("\\s*,\\s*")
+                        def hostFile = pwd() + '/ansible/hosts.yml'
+                        def cmd = "app:\n  hosts:\n"
+                        cmd + "  hosts:\n"
+                        for (i in ips) {
+                            def ip = i.trim() + ':\n'
+                            cmd = cmd + "    $ip"
+                        }
+                        writeFile file: hostFile, text: cmd
+                    } else {
+                        echo 'Skipping preparing Ansible Host file..'
                     }
-                    writeFile file: hostFile, text: cmd
-                }
-                } else [
 
                 }
             }
