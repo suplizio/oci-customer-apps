@@ -2,13 +2,8 @@
   remote_user: opc
   become: yes
   become_method: sudo
-  gather_facts: True
 
   tasks:
-
-  - name: Gather facts from new server
-    setup:
-      filter: ansible_default_ipv4.address
 
   - name: download new OCI repo
     get_url:
@@ -22,11 +17,6 @@
       - certbot
       - python2-certbot-nginx
       state: installed
-
-  - name: Ansible Template Example
-    template:
-      src: nginx.conf.j2
-      dest: nginx.conf
 
   - name: copy the nginx config file
     copy:
