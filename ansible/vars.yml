@@ -1,1 +1,1 @@
-host_ip: "{{ ansible_enp0s3.ipv4.address }}"
+host_ip: "{{ ansible_default_ipv4.address }}"
