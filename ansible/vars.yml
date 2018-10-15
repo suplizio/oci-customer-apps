@@ -1,1 +1,1 @@
-host_ip: "{{ ansible_default_ipv4.address }}"
+backend_ip: "{{ ansible_default_ipv4.address }}"
