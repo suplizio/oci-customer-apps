@@ -1,9 +1,9 @@
 pipeline {
   agent any
+  boolean executeDestroy = new Boolean(env.EXECUTE_DESTROY)
+  boolean executeApply = new Boolean(env.EXECUTE_APPLY)
 
   stages {
-    boolean executeDestroy = new Boolean(env.EXECUTE_DESTROY)
-    boolean executeApply = new Boolean(env.EXECUTE_APPLY)
 
     stage('Checkout and Deploy') {
       steps {
