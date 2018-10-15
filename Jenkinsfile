@@ -1,6 +1,10 @@
 pipeline {
   agent any
+
   stages {
+    boolean executeDestroy = new Boolean(env.EXECUTE_DESTROY)
+    boolean executeApply = new Boolean(env.EXECUTE_APPLY)
+
     stage('Checkout and Deploy') {
       steps {
         script {
