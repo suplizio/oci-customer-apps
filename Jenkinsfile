@@ -9,18 +9,17 @@ pipeline {
           echo 'Executing terraform init...'
           sh 'terraform init -input=false -no-color '
 
-          echo 'Executing terraform plan...'
-          sh 'terraform plan -input=false -lock=false -no-color -var display_name=${DISPLAY_NAME}  -state=${WORKSPACE}/${STATE_INPUT} -out=${WORKSPACE}/${PLAN_OUTPUT}'
-
           boolean executeDestroy = new Boolean(env.EXECUTE_DESTROY)
           boolean executeApply = new Boolean(env.EXECUTE_APPLY)
 
           if (executeDestroy) {
             echo 'Executing terraform destroy...'
+            sh 'terraform plan -destroy -input=false -lock=false -no-color -var display_name=${DISPLAY_NAME}  -state=${WORKSPACE}/${STATE_INPUT} -out=${WORKSPACE}/${PLAN_OUTPUT}'
             sh 'terraform destroy -input=false -no-color -auto-approve -lock=false -var display_name=${DISPLAY_NAME} -state=${WORKSPACE}/${STATE_INPUT}'
           }
           if (executeApply) {
-            echo 'Executing terraform apply...'
+            echo 'Executing terraform apply...'            
+            sh 'terraform plan -input=false -lock=false -no-color -var display_name=${DISPLAY_NAME}  -state=${WORKSPACE}/${STATE_INPUT} -out=${WORKSPACE}/${PLAN_OUTPUT}'
             sh 'terraform apply -input=false -no-color -auto-approve -lock=false -var display_name=${DISPLAY_NAME} -state=${WORKSPACE}/${STATE_INPUT}'
           }
         }
@@ -71,7 +70,7 @@ pipeline {
     WORKSPACE = '/var/lib/jenkins/workspace/tf_files'
     PLAN_OUTPUT = 'tfplan'
     STATE_INPUT = 'terraform.tfstate'
-    EXECUTE_DESTROY = 'true'
-    EXECUTE_APPLY = 'false'
+    EXECUTE_DESTROY = 'false'
+    EXECUTE_APPLY = 'true'
   }
 }
