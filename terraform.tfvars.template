@@ -1,0 +1,19 @@
+#Identity
+private_key_path="/YOUR/PATH/.ssh/id_rsa"
+ssh_authorized_keys="/YOUR/PATH/.ssh/id_rsa.pub"
+
+# Regions
+region="us-phoenix-1"
+
+# Tenancy
+tenancy_ocid="YOUR TENANCY OCID"
+compartment_ocid="YOUR MANAGEMENT COMPARTMENT OCID RUNNING JENKINS"
+
+# Region
+region="us-phoenix-1"
+
+hostnames=["<your hostname>"]
+hostname_names=["<your hostnames>"]
+backend_count = <number of backendsets>
+display_name="<your display name>"
+display_name_prefix="<your prefix>"
